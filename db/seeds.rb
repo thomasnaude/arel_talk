@@ -9,16 +9,16 @@ questionnaire = [
     possible_answers: [
       'Paris Region', 'North-West', 'North-East', 'South-West', 'South-East'
     ]
-  }
+  },
+  { question: 'Occupation', possible_answers: %w(employed unemployed) }
 ]
 
 questions = questionnaire.map.with_index do |args, i|
-  Question.create!(label: args[:question], rank: i + 1)
-          .tap do |question|
-    args[:possible_answers].each_with_index do |label, index|
-      PossibleAnswer.create!(label: label, rank: index + 1, question: question)
-    end
+  question = Question.create!(label: args[:question], rank: i + 1)
+  args[:possible_answers].each_with_index do |label, index|
+    PossibleAnswer.create!(label: label, rank: index + 1, question: question)
   end
+  question
 end
 
 1000.times do |i|
