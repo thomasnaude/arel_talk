@@ -2,45 +2,45 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180125131357) do
+ActiveRecord::Schema.define(version: 2018_01_25_131357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "answers", force: :cascade do |t|
-    t.integer  "possible_answer_id"
-    t.integer  "respondent_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["possible_answer_id"], name: "index_answers_on_possible_answer_id", using: :btree
-    t.index ["respondent_id"], name: "index_answers_on_respondent_id", using: :btree
+  create_table "answers", id: :serial, force: :cascade do |t|
+    t.integer "possible_answer_id"
+    t.integer "respondent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["possible_answer_id"], name: "index_answers_on_possible_answer_id"
+    t.index ["respondent_id"], name: "index_answers_on_respondent_id"
   end
 
-  create_table "possible_answers", force: :cascade do |t|
-    t.string   "label"
-    t.integer  "rank"
-    t.integer  "question_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["question_id"], name: "index_possible_answers_on_question_id", using: :btree
+  create_table "possible_answers", id: :serial, force: :cascade do |t|
+    t.string "label"
+    t.integer "rank"
+    t.integer "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_possible_answers_on_question_id"
   end
 
-  create_table "questions", force: :cascade do |t|
-    t.string   "label"
-    t.integer  "rank"
+  create_table "questions", id: :serial, force: :cascade do |t|
+    t.string "label"
+    t.integer "rank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "respondents", force: :cascade do |t|
+  create_table "respondents", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

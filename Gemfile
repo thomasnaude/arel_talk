@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.4.3'
+ruby '3.1.2'
 
 gem 'figaro'
 gem 'jbuilder', '~> 2.0'
-gem 'pg', '~> 0.21'
+gem 'pg', '~> 1.4.4'
 gem 'puma'
-gem 'rails', '5.0.6'
+gem 'rails', '6.1.7.3'
 gem 'redis'
 
 gem 'autoprefixer-rails'
