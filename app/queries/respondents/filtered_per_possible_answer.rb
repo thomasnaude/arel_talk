@@ -18,15 +18,13 @@ module Respondents
     end
 
     def filter_query
-      i = 0
-      @filters.inject(respondents) do |query, filter|
-        i += 1
+      @filters.each_with_index.inject(respondents) do |query, (filter, index)|
         query
-          .join(answers(i), join_type(i)).on(respondents[:id].eq(answers(i)[:respondent_id]))
-          .join(possible_answers(i)).on(answers(i)[:possible_answer_id].eq(possible_answers(i)[:id]))
-          .join(questions(i)).on(possible_answers(i)[:question_id].eq(questions(i)[:id]))
-          .where(possible_answers(i)[:label].in(filter[:possible_answers]))
-          .where(questions(i)[:label].eq(filter[:question]))
+          .join(answers(index), join_type(index)).on(respondents[:id].eq(answers(index)[:respondent_id]))
+          .join(possible_answers(index)).on(answers(index)[:possible_answer_id].eq(possible_answers(index)[:id]))
+          .join(questions(index)).on(possible_answers(index)[:question_id].eq(questions(index)[:id]))
+          .where(possible_answers(index)[:label].in(filter[:possible_answers]))
+          .where(questions(index)[:label].eq(filter[:question]))
       end.project(respondents[Arel.star])
     end
 
@@ -34,20 +32,20 @@ module Respondents
       Respondent.arel_table
     end
 
-    def answers(i)
-      Answer.arel_table.alias("answers#{i}")
+    def answers(index)
+      Answer.arel_table.alias("answers#{index}")
     end
 
-    def possible_answers(i)
-      PossibleAnswer.arel_table.alias("possible_answers#{i}")
+    def possible_answers(index)
+      PossibleAnswer.arel_table.alias("possible_answers#{index}")
     end
 
-    def questions(i)
-      Question.arel_table.alias("questions#{i}")
+    def questions(index)
+      Question.arel_table.alias("questions#{index}")
     end
 
-    def join_type(i)
-      i <= 1 ? Arel::Nodes::InnerJoin : Arel::Nodes::FullOuterJoin
+    def join_type(index)
+      index <= 1 ? Arel::Nodes::InnerJoin : Arel::Nodes::FullOuterJoin
     end
   end
 end
